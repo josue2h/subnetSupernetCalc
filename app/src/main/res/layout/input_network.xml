@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="6"
+    android:orientation="horizontal">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/til1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_weight="1"
+        app:errorEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/firstOctet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/example.first.octet"
+            android:inputType="number"
+            android:textAlignment="center" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/til1"
+        android:layout_marginTop="@dimen/margin_separator"
+        android:layout_weight="0.25"
+        android:text="@string/point"
+        android:textAlignment="center"
+        android:textStyle="bold" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/secondOctet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/example.second.octet"
+            android:inputType="number"
+            android:textAlignment="center" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/til1"
+        android:layout_marginTop="@dimen/margin_separator"
+        android:layout_weight="0.25"
+        android:text="@string/point"
+        android:textAlignment="center"
+        android:textStyle="bold" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/thirdOctet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/example.third.octet"
+            android:inputType="number"
+            android:textAlignment="center" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/til1"
+        android:layout_marginTop="@dimen/margin_separator"
+        android:layout_weight="0.25"
+        android:text="@string/point"
+        android:textAlignment="center"
+        android:textStyle="bold" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/fourthOctet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/example.fourth.octet"
+            android:inputType="number"
+            android:textAlignment="center" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/til1"
+        android:layout_marginTop="@dimen/margin_separator"
+        android:layout_weight="0.25"
+        android:text="@string/bar"
+        android:textAlignment="center"
+        android:textStyle="bold" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/mask"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/netmask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/example.netmask"
+            android:inputType="number"
+            android:textAlignment="center" />
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>
