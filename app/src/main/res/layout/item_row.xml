@@ -41,7 +41,7 @@
     <View
         android:id="@+id/separatorBottom"
         android:layout_width="match_parent"
-        android:layout_height="7dp"
+        android:layout_height="2dp"
         android:background="@color/colorPrimary"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"/>
 </LinearLayout>

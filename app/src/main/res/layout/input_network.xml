@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="6"
-    android:orientation="horizontal">
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="6">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/til1"
@@ -19,7 +22,7 @@
         <android.support.design.widget.TextInputEditText
             android:id="@+id/firstOctet"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:hint="@string/example.first.octet"
             android:inputType="number"
             android:textAlignment="center" />
@@ -108,7 +111,6 @@
         android:textStyle="bold" />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/mask"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -120,7 +122,29 @@
             android:layout_height="match_parent"
             android:hint="@string/example.netmask"
             android:inputType="number"
-            android:textAlignment="center" />
+            android:text="24"
+            android:textAlignment="center"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
     </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="5"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Mask :"/>
+        <SeekBar
+            android:id="@+id/size_mask"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:longClickable="false" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -6,7 +6,7 @@
     <string name="example.second.octet">168</string>
     <string name="example.third.octet">2</string>
     <string name="example.fourth.octet">12</string>
-    <string name="example.netmask">27</string>
+    <string name="example.netmask">24</string>
     <string-array  name="netmask_range" >
         <item> 1 </item>
         <item> 2 </item>

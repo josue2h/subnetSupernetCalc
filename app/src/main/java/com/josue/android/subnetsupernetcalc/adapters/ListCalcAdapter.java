@@ -45,19 +45,22 @@ public class ListCalcAdapter extends RecyclerView.Adapter<ListCalcAdapter.ViewHo
                 holder.item_title.setText("Network   :");
                 break;
             case 1:
-                holder.item_title.setText("Netmask  :");
+                holder.item_title.setText("Addrress  :");
                 break;
             case 2:
-                holder.item_title.setText("Broadcast:");
+                holder.item_title.setText("Netmask  :");
                 break;
             case 3:
-                holder.item_title.setText("First host :");
+                holder.item_title.setText("Broadcast:");
                 break;
             case 4:
-                holder.item_title.setText("Last host :");
+                holder.item_title.setText("First Last \n host :");
+                break;
+            case 5:
+                holder.item_title.setText("Max host:");
                 break;
             default:
-                holder.item_title.setText("Max host :");
+                holder.item_title.setText("Size Net :");
                 break;
         }
         holder.item_date.setText(element);

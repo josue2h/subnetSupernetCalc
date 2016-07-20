@@ -124,4 +124,5 @@ public class Netmask{
     public int getMaskSize(){
         return size;
     }
+
 }

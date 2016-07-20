@@ -8,24 +8,23 @@ public class Network {
     private NumberIp second_octet;
     private NumberIp third_octet;
     private NumberIp fourth_octet;
+    private Netmask netmask;
 
     private String network_address = "";
-    private String broadcast = "" ;
+    private String broadcast = "";
     private String first_address = "";
     private String last_address = "";
-    private String maximun_address = "";
-    private String maximun_host = "";
-    private String network_bits = "";
-    private String host_bits = "";
 
-    private Netmask netmask;
-    private int seccion_net;
-    private int range;
+    String clase = null;
+    int size_clase;
+    int seccion;
+    int size_subred;
+    int size_host;
+
 
     private static final int AUXRANGE = 256;
-    private static final int SIZE_MASK = 32;
+    //private static final int SIZE_MASK = 32;
     private static final double BASE = 2;
-
 
     public Network(int firstInput, int secondInput, int thirdInput, int fourthInput, int inputMask) {
         first_octet = new NumberIp(firstInput);
@@ -33,49 +32,66 @@ public class Network {
         third_octet = new NumberIp(thirdInput);
         fourth_octet = new NumberIp(fourthInput);
         netmask = new Netmask(inputMask);
+        calcular();
     }
 
     public void calcular() {
-        calcRange();
+        identificarClase(first_octet.getNumberDecimal());
         calcSeccionNetwork();
+        calcRange();
         calcularSubredes();
     }
 
-    public void calc(){
-        System.out.println("Address : " + getIpDecimal());
-        System.out.println("Netmask : " + netmask.getMaskDecimal());
-        System.out.println("Network : " + network_address);
-        System.out.println("Broadcast : " + broadcast);
-        System.out.println("first host : " + first_address);
-        System.out.println("Last host : " + last_address);
+    private void identificarClase(int number) {
+        if (number >= 0 && number <= 127) {
+            clase = "A";
+            size_clase = 8;
+        } else {
+            if (number >= 128 && number <= 191) {
+                clase = "B";
+                size_clase = 16;
+            } else {
+                if (number >= 192 && number <= 223) {
+                    clase = "C";
+                    size_clase = 24;
+                } else {
+                    if (number >= 224 && number <= 239) {
+                        clase = "D";
+                    } else {
+                        if (number >= 240 && number <= 255) {
+                            clase = "E";
+                        }
+                    }
+                }
+            }
+        }
     }
 
-
     private void calcSeccionNetwork() {
-        switch(netmask.getPosition()) {
+        switch (netmask.getPosition()) {
             case 1:
-                seccion_net = first_octet.getNumberDecimal();
+                seccion = first_octet.getNumberDecimal();
                 break;
             case 2:
-                seccion_net = second_octet.getNumberDecimal();
+                seccion = second_octet.getNumberDecimal();
                 break;
             case 3:
-                seccion_net = third_octet.getNumberDecimal();
+                seccion = third_octet.getNumberDecimal();
                 break;
             case 4:
-                seccion_net = fourth_octet.getNumberDecimal();
+                seccion = fourth_octet.getNumberDecimal();
                 break;
         }
     }
 
-    private void calcRange(){
-        range= AUXRANGE - netmask.getNumberSelection();
+    private void calcRange() {
+        size_host = AUXRANGE - netmask.getNumberSelection();
     }
 
     private void calcularSubredes() {
         int position = netmask.getPosition();
         int initial_ip = 0;
-        int end_ip = range;
+        int end_ip = size_host;
         boolean found = false;
 
         int first_aux = first_octet.getNumberDecimal();
@@ -83,64 +99,64 @@ public class Network {
         int third_aux = third_octet.getNumberDecimal();
         int fourth_aux = fourth_octet.getNumberDecimal();
 
-        switch(position) {
+        switch (position) {
             case 1:
                 while (!found) {
-                    if (seccion_net >= initial_ip && seccion_net < end_ip) {
-                        first_address = initial_ip+".0.0.1";
-                        last_address = (end_ip-1)+".255.255.254";
-                        network_address = initial_ip+".0.0.0";
-                        broadcast = (end_ip-1)+".255.255.255";
+                    if (seccion >= initial_ip && seccion < end_ip) {
+                        first_address = initial_ip + ".0.0.1";
+                        last_address = (end_ip - 1) + ".255.255.254";
+                        network_address = initial_ip + ".0.0.0";
+                        broadcast = (end_ip - 1) + ".255.255.255";
                         found = true;
-                    }else {
+                    } else {
                         initial_ip = end_ip;
-                        end_ip += range;
+                        end_ip += size_host;
                     }
                 }
                 break;
 
             case 2:
                 while (!found) {
-                    if (seccion_net >= initial_ip && seccion_net < end_ip) {
-                        first_address = first_aux +"."+initial_ip+".0.1";
-                        last_address = first_aux +"."+(end_ip-1)+".255.254";
-                        network_address = first_aux +"."+initial_ip+".0.0";
-                        broadcast = first_aux +"."+(end_ip-1)+".255.255";
+                    if (seccion >= initial_ip && seccion < end_ip) {
+                        first_address = first_aux + "." + initial_ip + ".0.1";
+                        last_address = first_aux + "." + (end_ip - 1) + ".255.254";
+                        network_address = first_aux + "." + initial_ip + ".0.0";
+                        broadcast = first_aux + "." + (end_ip - 1) + ".255.255";
                         found = true;
-                    }else {
+                    } else {
                         initial_ip = end_ip;
-                        end_ip += range;
+                        end_ip += size_host;
                     }
                 }
                 break;
 
             case 3:
                 while (!found) {
-                    System.out.println(seccion_net);
-                    if (seccion_net >= initial_ip && seccion_net < end_ip) {
+                    System.out.println(seccion);
+                    if (seccion >= initial_ip && seccion < end_ip) {
                         first_address = first_aux + "." + second_aux + "." + initial_ip + ".1";
-                        last_address = first_aux + "." + second_aux + "." + (end_ip-1) + ".254";
+                        last_address = first_aux + "." + second_aux + "." + (end_ip - 1) + ".254";
                         network_address = first_aux + "." + second_aux + "." + initial_ip + ".0";
-                        broadcast = first_aux + "." + second_aux + "." + (end_ip-1) + ".255";
+                        broadcast = first_aux + "." + second_aux + "." + (end_ip - 1) + ".255";
                         found = true;
-                    }else {
+                    } else {
                         initial_ip = end_ip;
-                        end_ip += range;
+                        end_ip += size_host;
                     }
                 }
                 break;
 
             case 4:
                 while (!found) {
-                    if (seccion_net >= initial_ip && seccion_net < end_ip) {
+                    if (seccion >= initial_ip && seccion < end_ip) {
                         first_address = first_aux + "." + second_aux + "." + third_aux + "." + (initial_ip + 1);
-                        last_address = first_aux + "." + second_aux + "." + third_aux + "." + (end_ip-2);
+                        last_address = first_aux + "." + second_aux + "." + third_aux + "." + (end_ip - 2);
                         network_address = first_aux + "." + second_aux + "." + third_aux + "." + initial_ip;
-                        broadcast = first_aux + "." + second_aux + "." + third_aux + "." + (end_ip-1);
+                        broadcast = first_aux + "." + second_aux + "." + third_aux + "." + (end_ip - 1);
                         found = true;
-                    }else {
+                    } else {
                         initial_ip = end_ip;
-                        end_ip += range;
+                        end_ip += size_host;
                     }
                 }
                 break;
@@ -148,18 +164,8 @@ public class Network {
 
     }
 
-    private String getIpDecimal(){
-        return first_octet.getNumberDecimal()+"."+second_octet.getNumberDecimal()
-                +"."+third_octet.getNumberDecimal()+"."+fourth_octet.getNumberDecimal();
-    }
-
-    private String getIpBinary(){
-        return first_octet.getNumberBinary()+"."+second_octet.getNumberBinary()
-                +"."+third_octet.getNumberBinary()+"."+fourth_octet.getNumberBinary();
-    }
-
     public void changeDates(int input_number1, int input_number2,
-                               int input_number3, int input_number4, int input_number5) {
+                            int input_number3, int input_number4, int input_number5) {
         first_octet.changeNumber(input_number1);
         second_octet.changeNumber(input_number2);
         third_octet.changeNumber(input_number3);
@@ -168,69 +174,50 @@ public class Network {
         calcular();
     }
 
-    public String getNetworkAddress() {
+    public String getClase() {
+        return clase;
+    }
+
+    public int getNumberSubred() {
+        double exponente = netmask.getMaskSize() - size_clase;
+        return (int) Math.pow(BASE, exponente);
+    }
+
+    public String getNetwork() {
         return network_address;
     }
 
-    public String getIpAddress(int tipo) {
-        String res = "";
-        if (tipo == 1) {
-            res = first_octet.getNumberDecimal()+"."+second_octet.getNumberDecimal()
-                    +"."+third_octet.getNumberDecimal()+"."+fourth_octet.getNumberDecimal();
-        }else{
-            res = first_octet.getNumberBinary()+"."+second_octet.getNumberBinary()
-                    +"."+third_octet.getNumberBinary()+"."+fourth_octet.getNumberBinary();
+    public String getAddress(int type) {
+        String resp = "";
+        switch (type) {
+            case 1:
+                resp = first_octet.getNumberDecimal() + "." + second_octet.getNumberDecimal() + "." + third_octet.getNumberDecimal() + "." + fourth_octet.getNumberDecimal();
+                break;
+            case 2:
+                resp = first_octet.getNumberBinary() + "." + second_octet.getNumberBinary() + "." + third_octet.getNumberBinary() + "." + fourth_octet.getNumberBinary();
+                break;
         }
-        return res;
+        return resp;
     }
 
-    public String getNetmask(int tipo) {
-        String res = "";
-        if (tipo == 1) {
-            res = netmask.getMaskDecimal();
-        }else {
-            res = netmask.getMaskBinary();
+    public String getNetmask(int type) {
+        String resp = "";
+        switch (type) {
+            case 1:
+                resp = netmask.getMaskDecimal();
+                break;
+            case 2:
+                resp = netmask.getMaskBinary();
+                break;
         }
-        return res;
+        return resp;
     }
-
-
 
     public String getBroadcast() {
         return broadcast;
     }
 
-    public String getFirstAddress() {
-        return first_address;
+    public String getFirstLastHost() {
+        return first_address + "\n" + last_address;
     }
-
-    public String getLastAddress() {
-        return last_address;
-    }
-
-    public String getMaximunAddress() {
-        final double exponente = SIZE_MASK - netmask.getMaskSize();
-        return (int)Math.pow(BASE, exponente)+"";
-    }
-
-    public String getMaximunHost() {
-        final double exponente = SIZE_MASK - netmask.getMaskSize();
-        return (int)(Math.pow(BASE, exponente)-2)+"";
-    }
-
-    public String getNetworkBits() {
-        return network_bits;
-    }
-
-    public String getHostBits() {
-        return host_bits;
-    }
-
-    public int getRange() {
-        return range;
-    }
-
-
-
-
 }
